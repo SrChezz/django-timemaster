@@ -1,0 +1,68 @@
+{% extends 'components/main.html' %}
+
+{% block title %}
+Alarmas
+{% endblock %}
+
+{% block content %}
+
+{% include 'components/sidebar.html' %}
+
+<div class="main-div">
+  <h2>{{ title }}</h2>
+  <span class="span-header">Gestiona tu tiempo de forma inteligente</span>
+</div>
+
+<div class="main-container">
+
+  <div class="timer-numbers" id="timer-display">
+    <h1 id="time">00:00:00.00</h1>
+  </div>
+
+  <div class="buttons" id="timer-setup">
+    <button onclick="startCountdown()">Iniciar</button>
+    <button onclick="stopCountdown()">Pausar</button>
+    <button onclick="resetCountdown()">Reiniciar</button>
+  </div>
+  
+</div>
+
+<script>
+  let intervalHandle;
+  let centisecondsRemaining = 0;
+
+  function tick() {
+    const timeDisplay = document.getElementById("time");
+    let hours = Math.floor(centisecondsRemaining / 360000);
+    let mins = Math.floor((centisecondsRemaining % 360000) / 6000);
+    let secs = Math.floor((centisecondsRemaining % 6000) / 100);
+    let centisecs = centisecondsRemaining % 100;
+    if (hours < 10) hours = "0" + hours;
+    if (mins < 10) mins = "0" + mins;
+    if (secs < 10) secs = "0" + secs;
+    if (centisecs < 10) centisecs = "0" + centisecs;
+    const message = `${hours}:${mins}:${secs}.${centisecs}`;
+    timeDisplay.innerHTML = message;
+    centisecondsRemaining++;
+  }
+
+  function startCountdown() {
+    if (!intervalHandle) { 
+      intervalHandle = setInterval(tick, 10);
+    }
+  }
+
+  function stopCountdown() {
+    clearInterval(intervalHandle);
+    intervalHandle = null;
+  }
+
+  function resetCountdown() {
+    clearInterval(intervalHandle);
+    centisecondsRemaining = 0;
+    document.getElementById("time").innerHTML = "00:00:00.00";
+  }
+
+</script>
+
+{% endblock %}

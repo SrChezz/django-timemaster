@@ -24,10 +24,10 @@ El proyecto tiene como objetivo desarrollar una aplicación de gestión de tiemp
 
 ### ⚙️ Requerimientos Técnicos
 
-- **Base de Datos SQLite**: Utilizar una base de datos SQLite para almacenar la configuración de los temporizadores y los registros de uso.
-- **Lenguaje de Programación**: Desarrollar la aplicación utilizando Python.
-- **Docker**: Configurar la aplicación para ejecutarse en un contenedor Docker.
-- **Pruebas**
+  - **Base de Datos SQLite**: Utilizar una base de datos SQLite para almacenar la configuración de los temporizadores y los registros de uso.
+  - **Lenguaje de Programación**: La aplicación se ha desarrollado utilizando Python con la libreria Django.
+  - **Docker**: Configurar la aplicación para ejecutarse en un contenedor Docker.
+  - **Pruebas**
   - **Pruebas Unitarias:** Desarrollar pruebas unitarias para validar el comportamiento individual de cada componente.
   - **Pruebas de Integración:** Realizar pruebas de integración para verificar la interacción entre los diferentes módulos de la aplicación.
   - **Pruebas del Sistema:** Realizar pruebas del sistema para validar el funcionamiento global de la aplicación.
@@ -41,3 +41,39 @@ El proyecto tiene como objetivo desarrollar una aplicación de gestión de tiemp
 - Diaz Damian Luis Jeancarlo
 - León Taza Brayan Angel
 - Tovar Payano Diego Marc
+
+### 📺 App Preview :
+
+<table width="100%"> 
+<tr>
+<td width="50%">      
+&nbsp; 
+<br>
+<p align="center">
+  Alarmas
+</p>
+<img src="/Otros/Screenshot 2024-07-02 134238.png">
+</td> 
+<td width="50%">
+<br>
+<p align="center">
+  Temporizador
+</p>
+<img src="/Otros/Screenshot 2024-07-02 134337.png">
+</td>
+<td width="50%">      
+&nbsp; 
+<br>
+<p align="center">
+  Cronometro
+</p>
+<img src="/Otros/Screenshot 2024-07-02 134342.png">
+</td> 
+<td width="50%">
+<br>
+<p align="center">
+  Pomodoro
+</p>
+<img src="/Otros/Screenshot 2024-07-02 134346.png">
+</td>
+</table>

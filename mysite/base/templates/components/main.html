@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="shortcut icon" href="/static/images/timemaster-logo.svg" type="image/x-icon">
+    <link rel="stylesheet" href="/static/icons.css">
+    <link rel="stylesheet" href="/static/style.css">
+
+    <title>{% block title %} Timemaster {% endblock %}</title>
+  </head>
+  <body>
+
+    {% include 'components/navbar.html' %}
+   
+
+    <main>
+
+      {% block content %} 
+    
+      {% endblock content %}
+
+      {% if messages %} 
+      <ul class="messages">
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+      </ul>
+      {% endif %}
+
+    </main>
+    {% include 'components/footer.html' %}
+    <script src="/static/javascript/navbar.js"></script>
+  </body>
+</html>

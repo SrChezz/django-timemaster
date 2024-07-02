@@ -1,0 +1,98 @@
+{% extends 'components/main.html' %}
+
+{% block title %}
+Alarmas
+{% endblock %}
+
+{% block content %}
+
+{% include 'components/sidebar.html' %}
+
+<div class="main-div">
+  <h2>{{ title }}</h2>
+  <span class="span-header">Gestiona tu tiempo de forma inteligente</span>
+</div>
+
+<div class="container">
+  <div id="timer">
+    <div id="time" class="clock-number div-text-center">
+      
+      <h1 class="pomodoro-number"><span id="minutes">25</span>
+        <span id="colon">:</span>
+        <span id="seconds">00</span></h1>
+    </div>
+    <div id="filler"></div>
+  </div>
+
+  <div class="buttons" id="buttons" class="div-text-center">
+    <button class="button" onclick="startTimer(25)">Trabajar</button>
+    <button class="button" onclick="startTimer(5)">Descanso</button>
+    <button class="button" onclick="startTimer(15)">Descanso Largo</button>
+    <button class="button" onclick="stopTimer()">Parar</button>
+  </div>
+</div>
+
+<div class="clock-section">
+  <span id="txt" class="clock-number"></span>
+</div>
+
+<script>
+  function startTime() {
+    const today = new Date();
+    let h = today.getHours() % 12 || 12;
+    let m = checkTime(today.getMinutes());
+    let s = checkTime(today.getSeconds());
+    const ampm = today.getHours() >= 12 ? 'PM' : 'AM';
+    document.getElementById('txt').innerHTML = `${h}:${m}:${s} ${ampm}`;
+    setTimeout(startTime, 1000);
+  }
+
+  function checkTime(i) {
+    return i < 10 ? `0${i}` : i;
+  }
+
+  let intervalHandle;
+  let minutesDom = document.getElementById('minutes');
+  let secondsDom = document.getElementById('seconds');
+  let fillerDom = document.getElementById('filler');
+  let fillerHeight = 0;
+  let fillerIncrement = 0;
+
+  function startTimer(minutes) {
+    clearInterval(intervalHandle); // Limpiar cualquier intervalo previo
+    let seconds = minutes * 60;
+    minutesDom.textContent = minutes;
+    secondsDom.textContent = '00';
+    fillerHeight = 0;
+    fillerIncrement = 200 / (minutes * 60);
+    intervalHandle = setInterval(updateTimer, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(intervalHandle);
+    minutesDom.textContent = '25'; // Restaurar por defecto al detener
+    secondsDom.textContent = '00'; // Restaurar por defecto al detener
+    fillerDom.style.height = '0';
+  }
+
+  function updateTimer() {
+    if (secondsDom.textContent === '00' && minutesDom.textContent === '00') {
+      clearInterval(intervalHandle);
+      return;
+    }
+    if (secondsDom.textContent === '00') {
+      secondsDom.textContent = '59';
+      minutesDom.textContent = parseInt(minutesDom.textContent) - 1;
+    } else {
+      secondsDom.textContent = parseInt(secondsDom.textContent) - 1;
+    }
+    fillerHeight += fillerIncrement;
+    fillerDom.style.height = `${fillerHeight}px`;
+  }
+
+  window.onload = function() {
+    startTime();
+  };
+</script>
+
+{% endblock %}

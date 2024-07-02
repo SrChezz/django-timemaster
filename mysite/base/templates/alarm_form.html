@@ -1,0 +1,31 @@
+{% extends 'components/main.html' %}
+
+{% block content %}
+
+<form method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="{{ form.title.id_for_label }}">Titulo:</label>
+        {{ form.title }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.time.id_for_label }}">Hora:</label>
+        {{ form.time }}
+    </div>
+    <div class="form-group">
+        <label for="{{ form.active.id_for_label }}">Activo:</label>
+        {{ form.active }}
+    </div>
+    <div class="form-group">
+        <label>Dias de la Semana:</label><br>
+        {% for checkbox in form.days_of_week %}
+            {{ checkbox }}
+            {{ checkbox.label }}
+            <br>
+        {% endfor %}
+    </div>
+    <button class="my-button" type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+{% endblock content %}
+

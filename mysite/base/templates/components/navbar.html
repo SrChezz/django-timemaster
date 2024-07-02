@@ -1,0 +1,19 @@
+<nav>
+    <a href="{% url 'home' %}">
+        <span class="logo-text nav-title">Timemaster</span>
+    </a>
+
+    <div class="nav-links span-title">
+        <a href="{% url 'about-us' %}">Conócenos</a>
+        <span id="profile" class="gg--profile profile-icon"></span>
+    </div>
+  
+    <div class="navbar-submenu hidden span-title">
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'logout' %}"><span class="material-symbols--logout-sharp icon"></span> Cerrar Sesión </a>
+        {% else %}
+        <a href="{% url 'login' %}">Iniciar Sesión</a>
+        {% endif %}
+    </div>
+</nav>
+  

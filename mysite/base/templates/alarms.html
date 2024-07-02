@@ -1,0 +1,138 @@
+{% extends 'components/main.html' %}
+{% block title %}
+Alarmas
+{% endblock %}
+{% block content %}
+{% include 'components/sidebar.html' %}
+<div class="main-div">
+  <h2>{{ title }}</h2>
+  <span class="span-header">Gestiona tu tiempo de forma inteligente</span>
+  <a class="clock-button" href="{% url 'create-alarm' %}">Añadir Alarma</a>
+</div>
+<div id="alarms-container" class="alarms-container">
+ 
+</div>
+<div class="clock-section">
+  <span id="txt" class="clock-number"></span>
+</div>
+<div id="alarm-modal" style="display:none;">
+  <div class="modal-content">
+    <h2>¡El tiempo se ha acabado!</h2>
+    <button onclick="stopAlarm()">Detener alarma</button>
+  </div>
+</div>
+<script>
+let alarms = [];
+let alarmSound = new Audio('/static/sound/alarmclock.mp3');
+let isAlarmPlaying = false;
+
+function startTime() {
+    const today = new Date();
+    let h = today.getHours();
+    let m = today.getMinutes();
+    let s = today.getSeconds();
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    h = h % 12;
+    h = h ? h : 12; // El cero debe ser "12"
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('txt').innerHTML = h + ':' + m + ':' + s + ' ' + ampm;
+    
+    checkAlarms(today);
+    
+    setTimeout(startTime, 1000);
+}
+
+function checkTime(i) {
+    if (i < 10) {
+        i = '0' + i;
+    }
+    return i;
+}
+
+function checkAlarms(currentTime) {
+    alarms.forEach(alarm => {
+        if (alarm.active) {
+            const alarmTime = new Date(currentTime);
+            const [hours, minutes] = alarm.time.split(':');
+            alarmTime.setHours(parseInt(hours));
+            alarmTime.setMinutes(parseInt(minutes));
+            alarmTime.setSeconds(0);
+
+            if (currentTime.getTime() === alarmTime.getTime() && !isAlarmPlaying) {
+                showAlarmModal();
+                playAlarmSound();
+            }
+        }
+    });
+}
+
+function showAlarmModal() {
+    document.getElementById('alarm-modal').style.display = 'block';
+}
+
+function playAlarmSound() {
+    alarmSound.loop = true;
+    alarmSound.play();
+    isAlarmPlaying = true;
+}
+
+function stopAlarm() {
+    alarmSound.pause();
+    alarmSound.currentTime = 0;
+    isAlarmPlaying = false;
+    document.getElementById('alarm-modal').style.display = 'none';
+}
+
+function formatToAMPM(time) {
+    let [hours, minutes] = time.split(':');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // El cero debe ser "12"
+    return `${hours}:${minutes} ${ampm}`;
+}
+
+fetch('{% url "api-alarms" %}')
+    .then(response => response.json())
+    .then(json => JSON.parse(json))
+    .then(data => {
+      console.log(data);
+      const alarmsContainer = document.getElementById('alarms-container');
+      alarms = data.map(alarm => ({
+        ...alarm.fields,
+        pk: alarm.pk,
+        days_of_week: JSON.parse(alarm.fields.days_of_week.replace(/'/g, '"')),
+        time_ampm: formatToAMPM(alarm.fields.time)
+      }));
+      
+      alarms.forEach(alarm => {
+        alarmsContainer.innerHTML += `
+          <div class="alarm-box">
+            <h5>${alarm.title}</h5>
+            <span class="clock-number">${alarm.time_ampm}</span>
+            <div class="days">
+              ${alarm.days_of_week.map(day => `<span>${day}</span>`).join('')}
+            </div>
+            <div>
+              <a href="update-alarm/${alarm.pk}/">Editar</a> 
+              <a href="delete-alarm/${alarm.pk}/">Eliminar</a> 
+            </div>
+            <div class="toggle">
+              <input type="checkbox" name="alarmState" ${alarm.active ? 'checked' : ''} id="alarmState-${alarm.pk}" onchange="toggleAlarm(${alarm.pk}, this.checked)">
+            </div>
+          </div>
+        `;
+      });
+      
+      startTime();
+    })
+    .catch(error => console.error('Error fetching alarms:', error));
+
+function toggleAlarm(alarmId, isActive) {
+    const alarm = alarms.find(a => a.pk === alarmId);
+    if (alarm) {
+        alarm.active = isActive;
+    }
+}
+</script>
+{% endblock %}

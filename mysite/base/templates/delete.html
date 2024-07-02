@@ -1,0 +1,16 @@
+{% extends 'components/main.html' %}
+
+{% block title %}
+Eliminar
+{% endblock %}
+
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <p>Esta seguro que desea eliminar {{obj}}</p>
+    <a href="{{request.META.HTTP_REFERER}}">Go back</a>
+    <input type="submit" value="Eliminar">
+</form>
+
+{% endblock %}
