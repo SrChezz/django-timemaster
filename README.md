@@ -60,7 +60,8 @@ El proyecto tiene como objetivo desarrollar una aplicación de gestión de tiemp
   Temporizador
 </p>
 <img src="/Otros/Screenshot 2024-07-02 134337.png">
-</td>
+</td> 
+<tr>
 <td width="50%">      
 &nbsp; 
 <br>
