@@ -131,6 +131,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CSRF_TRUSTED_ORIGINS = [
     'https://9002-idx-timemaster-django-1719297392915.cluster-vpxjqdstfzgs6qeiaf7rdlsqrc.cloudworkstations.dev',
+    'https://9000-idx-timemaster-django-1719297392915.cluster-vpxjqdstfzgs6qeiaf7rdlsqrc.cloudworkstations.dev',
     'https://9000-idx-timemaster-django-1719297392915.cluster-vpxjqdstfzgs6qeiaf7rdlsqrc.cloudworkstations.dev'
 ]
 
